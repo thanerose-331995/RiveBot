@@ -1,0 +1,218 @@
+body {
+  background-color: saddlebrown;
+  background-size: cover;
+  font-family: Georgia, 'Times New Roman', Times, serif; }
+
+#page-container {
+  background-image: url("paper-texture.jpg");
+  background-size: cover;
+  margin: 20px;
+  padding: 20px; }
+
+h2 {
+  color: #1E1E24;
+  width: 100%;
+  text-align: center;
+  margin: 0px;
+  padding-top: 10px; }
+
+#main-content {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-areas: 'words      words   chat    chat    chat' 'poem       poem    chat    chat    chat' 'poem       poem    found   found   found' 'prompt     prompt  prompt  sp      sp' 'log        log     log     log    log';
+  grid-gap: 20px;
+  padding: 30px;
+  padding-top: 10px; }
+  #main-content div {
+    background-color: gainsboro; }
+  #main-content #chat {
+    grid-area: chat; }
+    #main-content #chat #chat-box {
+      margin: 20px;
+      background-color: white;
+      justify-content: left; }
+      #main-content #chat #chat-box .header {
+        padding: 20px 0px; }
+      #main-content #chat #chat-box #chat-container {
+        height: 200px;
+        overflow: auto;
+        padding: 20px 30px; }
+        #main-content #chat #chat-box #chat-container .userMsg h5, #main-content #chat #chat-box #chat-container .userMsg p, #main-content #chat #chat-box #chat-container .botMsg h5, #main-content #chat #chat-box #chat-container .botMsg p {
+          display: inline-block;
+          margin: 5px; }
+        #main-content #chat #chat-box #chat-container .userMsg h5, #main-content #chat #chat-box #chat-container .botMsg h5 {
+          color: black; }
+        #main-content #chat #chat-box #chat-container .userMsg p, #main-content #chat #chat-box #chat-container .botMsg p {
+          color: white;
+          padding: 10px 20px;
+          background: #9c4e3a;
+          transition: 0.5s ease; }
+          #main-content #chat #chat-box #chat-container .userMsg p:hover, #main-content #chat #chat-box #chat-container .botMsg p:hover {
+            background: #da7961; }
+        #main-content #chat #chat-box #chat-container .userMsg {
+          text-align: left; }
+        #main-content #chat #chat-box #chat-container .botMsg {
+          text-align: right; }
+    #main-content #chat #text-input {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      margin: 20px auto; }
+  #main-content #found-words {
+    grid-area: found;
+    height: 100px;
+    padding: 10px; }
+    #main-content #found-words #found-container {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr); }
+      #main-content #found-words #found-container div {
+        text-align: center; }
+  #main-content #word-pool {
+    padding: 20px;
+    grid-area: words;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around; }
+    #main-content #word-pool #info {
+      display: flex;
+      flex-direction: column;
+      align-content: space-between; }
+      #main-content #word-pool #info * {
+        margin: 5px; }
+    #main-content #word-pool #word-box {
+      margin: 5px;
+      display: grid;
+      grid-gap: 10px;
+      grid-template-columns: repeat(3, 60px); }
+      #main-content #word-pool #word-box .word {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 0px; }
+  #main-content #poem-log {
+    grid-area: log;
+    height: 400px;
+    overflow: scroll; }
+    #main-content #poem-log #poem-container {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(200px, 3fr));
+      grid-gap: 10px; }
+      #main-content #poem-log #poem-container div {
+        background-color: white;
+        padding: 20px; }
+        #main-content #poem-log #poem-container div * {
+          margin: 10px; }
+  #main-content #poem-input {
+    grid-area: poem;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    text-align: center; }
+    #main-content #poem-input h4 {
+      margin: 0px; }
+    #main-content #poem-input textarea {
+      margin: 20px;
+      padding: 10px; }
+    #main-content #poem-input button {
+      width: 150px;
+      margin: auto; }
+  #main-content .prompt {
+    padding: 20px;
+    background-color: ghostwhite; }
+    #main-content .prompt h5, #main-content .prompt h4, #main-content .prompt h3 {
+      margin: 0px; }
+    #main-content .prompt h6 {
+      text-align: right;
+      margin: 5px; }
+  #main-content #prompts {
+    grid-area: prompt;
+    padding: 20px; }
+    #main-content #prompts #prompt-container {
+      padding: 10px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 10px;
+      height: 300px;
+      overflow: scroll; }
+  #main-content #selected-prompt {
+    grid-area: sp;
+    padding: 20px; }
+    #main-content #selected-prompt .prompt {
+      padding: 25px; }
+      #main-content #selected-prompt .prompt h4 {
+        padding: 5px;
+        padding-top: 10px; }
+
+#overlay {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  display: flex;
+  justify-content: center; }
+  #overlay #created-poem {
+    margin-top: 100px;
+    width: fit-content;
+    background-color: ghostwhite;
+    padding: 20px;
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 2fr 2fr;
+    grid-template-areas: 'title  settings' 'img    settings' 'links  settings'; }
+    #overlay #created-poem h3 {
+      grid-area: title; }
+    #overlay #created-poem #example-image {
+      grid-area: img;
+      width: 300px;
+      height: 300px;
+      background-color: blue; }
+    #overlay #created-poem #img-settings {
+      grid-area: settings; }
+      #overlay #created-poem #img-settings p {
+        margin: 5px;
+        font-size: 15px; }
+    #overlay #created-poem #img-links {
+      grid-area: links; }
+
+#first-overlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  text-align: center; }
+  #first-overlay #introduction {
+    margin-top: 100px;
+    padding: 20px;
+    width: fit-content;
+    max-width: 500px;
+    background-color: ghostwhite; }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-content: center; }
+
+.help {
+  font-size: 15px; }
+  .help p {
+    width: fit-content;
+    padding: 5px; }
+
+#feature-info {
+  width: auto;
+  max-width: 200px;
+  height: fit-content;
+  background-color: ghostwhite;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  padding: 5px;
+  font-size: small; }
+  #feature-info p {
+    margin: 0px; }
+
+/*# sourceMappingURL=style.css.map */

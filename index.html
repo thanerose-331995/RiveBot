@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <script src="jquery-3.4.1.min.js"></script>
+</head>
+
+<body>
+    <div id="page-container">
+        <div id="highlight">
+            <h2>Welcome To RiveBot!</h2>
+        </div>
+        <div id="welcome">
+            <h3>Welcome, would you like to login or sign up?</h3>
+            <button type="button" id="login-button" onclick="loginOrSignUp(false)">Login</button>
+            <button type="button" id="signup-button" onclick="loginOrSignUp(true)">Sign Up</button>
+        </div>
+        <div id="login">
+            <br>
+            <h3>LOGIN</h3>
+            <h3>Username</h3>
+            <input id="username" type="text">
+            <div id="email-input">
+                <h3>Email</h3>
+                <input id="email" type="text">
+            </div>
+            <h3>Password</h3>
+            <input id="password" type="password">
+            <button type="button" onclick='sendForm("LOGIN")'>Submit</button>
+        </div>
+        <br>
+        <div id="main-page">
+            <div id="main-content">
+                <div id="word-pool">
+                    <div id="info">
+                        <h4>Word Pool</h4>
+                        <div class="help" id="0">
+                            <p><i>?</i></p>
+                        </div>
+                        <button type="button" onclick="getWordPool('check')">Refresh</button>
+                    </div>
+                    <div id="word-box">
+                        Waiting for words
+                    </div>
+                </div>
+                <div id="poem-input">
+                    <div class="header">
+                        <h4>Input Your Poem</h4>
+                        <div class="help" id="1">
+                            <p><i>?</i></p>
+                        </div>
+                    </div>
+                    <p id="poem-word-count">0/4</p>
+                    <textarea id="message" rows="10" cols="30">Poem Goes Here</textarea>
+                    <button type="button" onclick="checkPoem()">Send</button>
+                </div>
+                <div id="chat">
+                    <div class="header">
+                        <h2>Rive</h2>
+                        <div class="help" id="2">
+                            <p><i>?</i></p>
+                        </div>
+                    </div>
+                    <div id="chat-box">
+                        <div id="chat-container"></div>
+                    </div>
+                    <div id="text-input">
+                        <input id="text" type="text""><br>
+                        <button type=" button" onclick="sendChat()">Send</button>
+                    </div>
+                </div>
+                <div id="found-words">
+                    <div class="header">
+                        <h4>Found:</h4>
+                        <div class="help" id="3">
+                            <p><i>?</i></p>
+                        </div>
+                    </div>
+                    <div id="found-container"></div>
+                    <div id="definitions"></div>
+                </div>
+                <div id="prompts">
+                    <div class="header">
+                        <h3>Writing Prompts</h3>
+                        <div class="help" id="4">
+                            <p><i>?</i></p>
+                        </div>
+                    </div>
+                    <div id="prompt-container">
+                        <h6>Waiting for prompts...</h6>
+                    </div>
+                </div>
+                <div id="selected-prompt">
+                    <div class="header">
+                        <h4>Selected Prompt</h4>
+                        <div class="help" id="5">
+                            <p><i>?</i></p>
+                        </div>
+                    </div>
+                    <div id="selected-prompt-container"></div>
+                </div>
+                <div id="poem-log">
+                    <div class="header">
+                        <h2>Poem Log</h2>
+                        <div class="help" id="6">
+                            <p><i>?</i></p>
+                        </div>
+                    </div>
+                    <div id="poem-container"></div>
+                </div>
+                <button type="button" onclick="logout()">Log Out</button>
+            </div>
+            <div id="overlay">
+                <div id="created-poem">
+                    <h3>Nice, here's your poem:</h3>
+                    <div id="example-image"></div>
+                    <div id="img-settings">
+                        <form>
+                            <h3>Settings</h3>
+                            <p>Font Size</p>
+                            <input type="range" name="font-size" min="6" max="50">
+                            <p>Font Family</p>
+                            <select name="font-family">
+                                <option value="Georgia">Georgia</option>
+                                <option value="sans-serif">Sans-Serif</option>
+                                <option value="Futura">Futura</option>
+                            </select>
+                            <p>Text Align</p>
+                            <input type="radio" name="align" value="left" checked>left
+                            <input type="radio" name="align" value="center" >center
+                            <input type="radio" name="align" value="right" >right
+                            <p>Text Colour</p>
+                            <input type="color" name="text-color" value="#ffffff">
+                            <p>Background Colour</p>
+                            <input type="color" name="text-color" value="#000000">
+                            <p>Line Spacing</p>
+                            <input type="range" name="font-size" min="5" max="20">
+                            <p>Stroke Width</p>
+                            <input type="range" name="font-size" min="5" max="20">
+                            <p>Padding</p>
+                            <input type="range" name="font-size" min="10" max="200">
+                        </form>
+                    </div>
+                    <div id="img-links"></div>
+                </div>
+            </div>
+            <div id="first-overlay">
+                <div id="introduction">
+                    <h3>Hello! Welcome to RiveBot.</h3>
+                    <p>RiveBot is a creative writing tool that uses various prompts to spark creativity!
+                        We suggest using the tool daily, keeping track of your progress each day.
+                    </p>
+                    <p>The main tool, the poetry logger, is an exercise where you have to create a poem using
+                        at least four words generated in the word pool. Give it a go!
+                    </p>
+                    <p>
+                        If you need any help or have any other questions, feel free to ask Rive.
+                    </p>
+                    <button type="button" onclick="closeIntro()">Okay!</button>
+                </div>
+            </div>
+            <div id="feature-info">
+                <p>this is some info</p>
+            </div>
+        </div>
+        <!-- <form action="/" method="post">
+    </form> -->
+    </div>
+</body>
+<script>
+
+    $(document).ready(function () {
+        if (typeof jQuery != 'undefined') {
+            console.log("jQuery found");
+        }
+        pageChange();
+        getWordPool("life");
+        $("#created-poem").hide();
+        $("#first-overlay").hide();
+        $("#feature-info").hide();
+        getPrompts();
+        botText.push("hello");
+        userText.push(" ");
+        drawConvo();
+    });
+
+    var userText = [];
+    var botText = [];
+    var count = 0;
+    var hyponyms = [];
+
+    //-----------------
+    //BABELNET API LINK
+    //-----------------
+    var lang = 'EN'
+    var key = '8261032b-94b7-4aa5-981c-86e71b18cff8'
+
+
+    //-----
+    //LOGIN
+    //-----
+    //LOGIN/SIGNUP REQ SEND
+    function sendForm(type) {
+        var details = [$("#username").val(), $("#password").val(), $("#email").val()];
+
+        if ($("#email-input").is(":hidden")) {
+            details[2] = "NO";
+        }
+        console.log("Username: " + details[0] + " / Password: " + details[1] + " / Email: " + details[3]);
+
+        if (details[0] != "" || details[1] != "") {
+
+            $.ajax({
+                url: '/',
+                method: 'POST',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({
+                    type: type,
+                    username: details[0],
+                    email: details[2],
+                    password: details[1]
+                }),
+                success: function (res) {
+                    if (res.r) {
+                        sessionStorage.setItem("userID", res.id);
+                        sessionStorage.setItem("logged-in", true);
+                        pageChange();
+                    }
+                    else {
+                        console.log(res.e);
+                        $("#username, #password, #email").val("");
+                        $("#login").append("<div id='err'>" + res.e + "</div>");
+
+                    }
+                }
+            });
+
+        } else {
+            console.log("Invalid Username/Password");
+        }
+    }
+
+    //LOGIN/SIGNUP PAGE CHANGE
+    function loginOrSignUp(check) {
+        $("#signup-button, #login-button, #login").show();
+        if (check) {
+            $("#email-input").show();
+            $("#signup-button").hide();
+        } else {
+            $("#email-input, #login-button").hide();
+        }
+    }
+
+    //LOGGED IN PAGE CHANGE
+    function pageChange() {
+        var loggedIn = sessionStorage.getItem("logged-in");
+        if (loggedIn == null) {
+            loggedIn = false;
+        }
+        if (loggedIn == "true") {
+            console.log("LOGGED IN");
+            getPoems();
+            $("#welcome, #login").hide();
+            $("#main-page").show();
+            $("#first-overlay").fadeIn();
+        } else {
+            console.log("NOT LOGGED IN");
+            $("#main-page, #login").hide();
+            $("#welcome, #login-button").show();
+        }
+    }
+
+    function closeIntro() {
+        $("#first-overlay").fadeOut();
+    }
+
+    function logout() {
+        sessionStorage.setItem("logged-in", false);
+        location.reload();
+    }
+
+    //------------
+    //GET HYPONYMS
+    //------------
+    //this is a debug function alternative
+    function find() {
+        displayWords([word + "1", word + "2", word + "3", word + "4", word + "5"]);
+    }
+
+    //FUNCTION TO CALL
+    function getWordPool(word) {
+        $("#word-box").empty();
+        $("#word-box").append("waiting for words");
+
+        $.ajax({
+            url: '/',
+            method: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({
+                type: "WORDS",
+                word: word
+            }),
+            success: function (res) {
+                displayWords(res);
+            }
+        })
+    }
+
+    //DISPLAY TO USER
+    function displayWords(words) {
+        //if the container exists then delete to start again
+        //$("#word-box").empty();
+        $("#word-box").fadeOut(function () {
+            $("#word-box").empty();
+            if (words[0] != "null") {
+                var count = 0;
+                words.forEach(word => {
+                    if (word != "" && count < 6) {
+                        $("#word-box").append(
+                            "<p class='word' id=" + word + ">" + word + "</p>"
+                        );
+                        count++;
+                    }
+                });
+            }
+            else {
+                $("#word-box").append(
+                    "<p class='word'> No words to display, please try searching something else! </p>"
+                );
+            }
+            $("#word-box").fadeIn()
+        })
+        //build the words
+
+    }
+
+    //---------------------
+    //RIVEBOT COMMUNICATION
+    //---------------------
+    function sendChat() {
+
+        var text = document.getElementById("text");
+        var sending = $("#sending");
+        var date = new Date();
+
+        if (text.value != "") {
+
+            $.ajax({
+                url: '/',
+                method: 'POST',
+                dataType: 'text',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({
+                    type: "CHAT",
+                    value: text.value,
+                    date: date.toDateString()
+                }),
+                success: function (res) {
+                    var reply = res;
+                    //IF A HYNONYM CHECK
+                    console.log(reply);
+                    if (reply.includes("HYNONYMS FOR")) {
+                        var word = reply.replace('HYNONYMS FOR ', '');
+                        getWordPool(word);
+                        reply = "Finding smiliar words to " + word;
+                    } else if (reply.includes("synonyms" || reply.includes("definitions"))) {
+                        var r = reply.split(":");
+                        var s = r[2].split(",");
+                        showFindings(r[0], s);
+                        reply = "Finding synonyms for " + r[1];
+                    }
+
+                    botText.push(reply);
+                    drawConvo(0);
+                }
+            });
+
+            userText.push(text.value);
+            drawConvo(1);
+            text.value = "";
+        }
+    }
+
+    function drawConvo(speaker) {
+        if (speaker) {
+            $("#chat-container").append(
+                "<div class='userMsg'><h5>User</h5><br><p>" + userText[count] + "</p></div>"
+            );
+        } else {
+            $("#chat-container").append(
+                "<div class='botMsg'><h5>RiveBot</h5><br><p>" + botText[count] + "</p></div>"
+            );
+            count++;
+        }
+    }
+
+    function showFindings(type, words) {
+        var container;
+        if (type == "synonyms") {
+            container = $("#found-container");
+        }
+        else {
+            container = $("#definitions");
+        }
+        container.empty();
+        for (var i = 0; i < 10; i++) {
+            container.append(
+                "<div id=" + words[i] + ">" +
+                "<p>" + words[i] + "</p>" +
+                "</div>"
+            );
+            container.hide();
+            container.fadeIn();
+        }
+    }
+
+    //-------------
+    //POEM HANDLING
+    //-------------
+    function checkPoem() {
+        var correct = false;
+        var poem = $("#message").val();
+
+        if (poem == "") {
+            correct = false;
+        }
+        else {
+            //get the words to check against
+            var words = [];
+            $('#word-box').children('p').each(function () {
+                words.push($(this).html());
+            });
+
+            //check for each word
+            var x = 0;
+            words.forEach(word => {
+                if (poem.includes(word)) {
+                    x++;
+                }
+            });
+            if (x > 3) {
+                correct = true;
+            }
+        }
+
+        //yay or nay
+        if (correct) {
+            //cool!!!!!
+            sendPoem();
+            $("#message").val("");
+        } else {
+            //clear and reset
+        }
+        $('#word-box').children('p').each(function () {
+            $(this).css("background-color", "transparent");
+        });
+    }
+
+    function sendPoem() {
+
+        var poem = $("#message").val();
+        var date = new Date();
+        var id = sessionStorage.getItem("userID");
+        $.ajax({
+            url: '/',
+            method: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({
+                type: "POEM",
+                message: poem,
+                timeID: date.toDateString(),
+                userID: id
+            }),
+            success: function (res) {
+                getPoems();
+                console.log(res)
+                showExample(poem, res);
+            }
+        });
+    }
+
+    function getPoems() {
+        var id = sessionStorage.getItem("userID");
+        $.ajax({
+            url: '/',
+            method: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({
+                type: "GET-POEM",
+                userID: id
+            }),
+            success: function (res) {
+                var poems = [];
+                res['r'].forEach(poem => {
+                    poems.push(poem);
+                })
+                showPoems(poems);
+            }
+        });
+    }
+
+    function showPoems(poems) {
+        $("#poem-container").empty();
+        if (poems.length == 0) {
+            $("#poem-container").append("sorry, no poems");
+        } else {
+            poems.reverse();
+            poems.forEach(p => {
+                $("#poem-container").append(
+                    "<div id='poem" + p['id'] + "' >" +
+                    "<h3>" + p['content'] + "</h3>" +
+                    "<h6>" + p['dT'] + "</h6>" +
+                    "</div>"
+                );
+            })
+        }
+    }
+
+    function showExample(poem, res) {
+        $("#example-image").empty();
+        $("#example-image").append("<div><p>"+poem+"</p></div>");
+        $("#img-links").empty();
+        $("#img-links").append(
+            "<button type'button' onclick='imgDownload("+res+")'>Download</button>" +
+            "<button type'button' onclick='hideExample()'>Exit</button>"
+        );
+        $("#created-poem").fadeIn();
+
+    }
+
+    function hideExample() {
+        $("#created-poem").fadeOut();
+    }
+    //-------
+    //PROMPTS
+    //-------
+    var prompts = [];
+    function getPrompts() {
+        $.ajax({
+            url: '/',
+            method: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({
+                type: "PROMPTS"
+            }),
+            success: function (res) {
+                res.forEach(prompt => {
+                    prompts.push(prompt);
+                })
+                showPrompts(function () {
+                    clickedPrompt(0);
+                });
+            }
+        })
+    }
+
+    function showPrompts(callback) {
+        $("#prompt-container").empty();
+        prompts.forEach(function (prompt, index) {
+
+            //TEXT FILTERING
+            var text = "";
+            for (var i = 0; i < prompt.length; i++) {
+                if (i < 100) {
+                    text += prompt[i];
+                }
+                else if (prompt[i] != " " && prompt[i] != ",") {
+                    text += prompt[i];
+                }
+                else {
+                    text += "...";
+                    break;
+                }
+            }
+            $("#prompt-container").append(
+                "<div class='prompt' onclick='clickedPrompt(" + index + ")'>" +
+                "<h5>" + text + "</h5>" +
+                "<h6>" + (index + 1) + "</h6>" +
+                "</div>"
+            );
+            callback();
+        })
+    }
+
+    function clickedPrompt(id) {
+        $("#selected-prompt-container").empty();
+        $("#selected-prompt-container").append(
+            "<div class='prompt'>" +
+            "<h3> Prompt " + (id + 1) + "</h2>" +
+            "<p>" + prompts[id] + "</p>" +
+            "<button type='button' onclick='savePrompt(" + id + ")'>Save</button>" +
+            "</div>"
+        );
+    }
+
+    //---------------------
+    //GENERAL FUNCTIONALITY
+    //---------------------
+
+    //when click remove stock message
+    $("#message").click(function () {
+        if ($("#message").val() == "Poem Goes Here") {
+            $("#message").val("");
+        }
+    })
+
+    //poem keypress
+    var poemstring = "";
+    $("#message").keypress(function (keyCode) {
+        //console.log(keyCode['key']);
+        checkPoemWords(keyCode['key']);
+    });
+
+    function checkPoemWords(string) {
+        var poem = $("#message").val() + string;
+        var words = [];
+
+        $('#word-box').children('p').each(function () {
+            words.push($(this).html());
+        });
+
+        var counter = 0;
+        words.forEach(word => {
+            if (poem.includes(word)) {
+                x = "#" + word;
+                $(x).css("background-color", "burlywood");
+                if (counter <= 3) {
+                    counter++;
+                }
+            }
+            else {
+                x = "#" + word;
+                $(x).css("background-color", "gainsboro");
+            }
+        })
+        $("#poem-word-count").html(counter + "/4");
+    }
+
+    //send chat when enter
+    $("#text").keypress(function (keyCode) {
+        if (keyCode["key"] == 'Enter' && ($("#text").val() != "")) {
+            sendChat();
+        }
+    });
+
+    var info = ["The word pool is six randomly generated words that are linked, but not synonyms of each other.",
+        "Input your poem using at least four of the word pool words.",
+        "Communicate with Rive here, ask questions or just say hello!",
+        "These are any words or definitions Rive has collected to answer a question.",
+        "Writing prompts collected from r/writingprompts, click each one for more info.",
+        "The current selected promp.",
+        "A log of all your poems."];
+
+    //helpbox
+    $(".help").hover(
+        function () {
+            $(this).children().css("background-color", "burlywood");
+            var id = $(this).attr("id")
+            $("#feature-info").empty();
+            $("#feature-info").append("<p>" + info[id] + "</p>");
+            $("#feature-info").fadeIn();
+
+        }, function () {
+            $("#feature-info").fadeOut();
+            $(this).children().css("background-color", "gainsboro");
+        });
+
+    $(document).mousemove(function (event) {
+        $("#feature-info").css("top", (event.screenY - 10));
+        $("#feature-info").css("left", (event.screenX + 20));
+    })
+
+</script>
+
+</html>

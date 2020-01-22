@@ -1,0 +1,29 @@
++ hello
+- Hello, what is your name?
+- Hi
+- Hiya
+
++ hi
+- hi, what is your name?
+
++ my name is *
+- nice to meet you $<star>
+- nice meeting you $<star>
+
++ thank you
+- You are welcome
+- Welcome
+- No problem
+- No worries
+
++ hashhash *
+- HYNONYMS FOR <star>
+
++ *
+- Sorry did not get what you said
+- I am afraid that i can not understand you
+- I did not get it
+- Sorry can you please elaborate that for me
+
++ what can you do
+- Ask for definitions or synonyms, or maybe a random prompt
