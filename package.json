@@ -1,0 +1,29 @@
+{
+  "name": "chatbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "(app.js)",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "canvas": "^2.6.1",
+    "express": "^4.17.1",
+    "express-validator": "^6.3.0",
+    "install": "^0.13.0",
+    "jquery": "^3.4.1",
+    "mysql": "^2.17.1",
+    "natural": "^0.6.3",
+    "node-dexicon": "^1.2.0",
+    "node-wordnet": "^0.1.12",
+    "rivescript": "^2.0.0",
+    "sqlite3": "^4.1.1",
+    "text2png": "^2.3.0",
+    "unirest": "^0.6.0",
+    "util": "^0.12.1",
+    "utils": "^0.3.1",
+    "wndb-with-exceptions": "^3.0.2"
+  }
+}

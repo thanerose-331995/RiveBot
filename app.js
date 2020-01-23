@@ -291,6 +291,7 @@ function reply(message, callback) {
             callback();
         });
     }
+    //ANTONYMNS
     else if (res.includes("definitions")) {
         word = res[(res.indexOf("definitions")) + 2];
         getDefinitions(word, function (res) {

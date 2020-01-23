@@ -116,30 +116,30 @@
                     <h3>Nice, here's your poem:</h3>
                     <div id="example-image"></div>
                     <div id="img-settings">
-                        <form>
+                        <form id="image-settings">
                             <h3>Settings</h3>
                             <p>Font Size</p>
-                            <input type="range" name="font-size" min="6" max="50">
+                            <input type="range" class="form-val" name="font-size" min="15" max="40">
                             <p>Font Family</p>
-                            <select name="font-family">
+                            <select name="font-family" class="form-val">
                                 <option value="Georgia">Georgia</option>
                                 <option value="sans-serif">Sans-Serif</option>
                                 <option value="Futura">Futura</option>
                             </select>
                             <p>Text Align</p>
-                            <input type="radio" name="align" value="left" checked>left
-                            <input type="radio" name="align" value="center" >center
-                            <input type="radio" name="align" value="right" >right
+                            <input type="radio" name="align" class="form-val" value="left" >left
+                            <input type="radio" name="align" class="form-val" value="center" checked>center
+                            <input type="radio" name="align" class="form-val" value="right" >right
                             <p>Text Colour</p>
-                            <input type="color" name="text-color" value="#ffffff">
+                            <input type="color" name="text-color" class="form-val" value="#ffffff">
                             <p>Background Colour</p>
-                            <input type="color" name="text-color" value="#000000">
+                            <input type="color" name="background-color" class="form-val" value="#000000">
                             <p>Line Spacing</p>
-                            <input type="range" name="font-size" min="5" max="20">
+                            <input type="range" name="line-spacing" class="form-val" min="5" max="20">
                             <p>Stroke Width</p>
-                            <input type="range" name="font-size" min="5" max="20">
+                            <input type="range" name="stroke-width" class="form-val" min="5" max="20">
                             <p>Padding</p>
-                            <input type="range" name="font-size" min="10" max="200">
+                            <input type="range" name="padding" class="form-val" min="10" max="200">
                         </form>
                     </div>
                     <div id="img-links"></div>
@@ -523,18 +523,49 @@
 
     function showExample(poem, res) {
         $("#example-image").empty();
-        $("#example-image").append("<div><p>"+poem+"</p></div>");
+        $("#example-image").append("<p>"+poem+"</p>");
         $("#img-links").empty();
         $("#img-links").append(
-            "<button type'button' onclick='imgDownload("+res+")'>Download</button>" +
+            "<button type'button' onclick='imgDownload("+res['r']+")'>Download</button>" +
             "<button type'button' onclick='hideExample()'>Exit</button>"
         );
         $("#created-poem").fadeIn();
-
+        formatImg();
     }
 
     function hideExample() {
         $("#created-poem").fadeOut();
+    }
+
+    $(".form-val").change(function(){
+        formatImg();
+    })
+    
+    function formatImg(){
+        var settings = $("#image-settings").serializeArray();
+        var image = $("#example-image");
+        console.log(settings);
+        //font size
+        image.children().css("fontSize", (settings[0]["value"]+"px"));
+        //font family
+        image.children().css("font-family", settings[1]["value"]);
+        //text align
+        image.css("text-align", settings[2]['value']);
+        //font color
+        image.css("color", settings[3]['value']);
+        //bg color
+        image.css("background-color", settings[4]['value']);
+        //line spacing
+        image.css("line-height", settings[5]['value']+"px");
+        //stroke width
+        //padding
+    }
+
+    function imgDownload(id){
+        var settings = $("#image-settings").serializeArray();
+        settings.forEach(x =>{
+            console.log(x);
+        })
     }
     //-------
     //PROMPTS
@@ -619,6 +650,7 @@
 
     function checkPoemWords(string) {
         var poem = $("#message").val() + string;
+        poem = poem.toLowerCase();
         var words = [];
 
         $('#word-box').children('p').each(function () {
